@@ -41,7 +41,7 @@ const Chart = ({ title, items }) => {
         }
       });
       
-  // Update chart data when items change
+  
   useEffect(() => {
     if (items && items.length > 0) {
       const labels = items.map((item) => item.title);

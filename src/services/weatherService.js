@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 const API_KEY = '0733a9a36ed76b4d2bc109a42a04b414';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
-//get weather data from API
+
 const getWeatherData = (infoType, searchParams) =>{
     const url = new URL(BASE_URL + '/' + infoType);
     url.search = new URLSearchParams({...searchParams, appid:API_KEY});
@@ -11,7 +11,7 @@ const getWeatherData = (infoType, searchParams) =>{
     return fetch(url).then((res) => res.json())
 };
 
-//format current weather
+
 const formatCurrentWeather = (data) =>{
     const {
         coord: {lat, lon},
@@ -29,9 +29,9 @@ const formatCurrentWeather = (data) =>{
          sunset, details, icon, speed}
 };
 
-//format Forecast Weather
+
 const formatForecastWeather = (data) =>{
-    let {timezone, daily, hourly} = data;
+    let {timezone, daily} = data;
     daily = daily.slice(1,6).map(d=>{
         return{
             title: formatToLocalTime(d.dt, timezone, 'ccc'),
@@ -41,16 +41,8 @@ const formatForecastWeather = (data) =>{
            
         } 
     });
- 
-    hourly = hourly.slice(1,0).map(d=>{
-        return{
-            title: formatToLocalTime(d.dt, timezone, 'hh:mm a'),
-            temp: d.temp,
-            icon: d.weather[0].icon
-        }
-    });
 
-    return {daily,hourly,timezone};
+    return {daily,timezone};
 }
 
 
